@@ -1,7 +1,8 @@
 export {};
 const client = require('./client');
+const { createUser, createTransaction } = require('./index');
 
-const dropTables = async ():Promise<void> => {
+async function dropTables():Promise<void> {
   try {
     console.log("Dropping all tables...");
 
@@ -17,7 +18,7 @@ const dropTables = async ():Promise<void> => {
   }
 }
 
-const createTables = async():Promise<void> => {
+async function createTables():Promise<void> {
   try {
     await client.query(`
       CREATE TABLE users (
@@ -46,28 +47,130 @@ const createTables = async():Promise<void> => {
   }
 }
 
-// const createInitialUsers = async ():Promise<void> {
-//   console.log("Starting to create users...");
-//   try {
-//     const usersToCreate = [
-//       {
-//         firstName: "Peter",
-//         lastName: "Parker",
-//         email: "spiderman@cointrip.com",
-//         password: "ilovemaryjane",
-//         profilePicture: "https://en.wikipedia.org/wiki/Peter_Parker_(Sam_Raimi_film_series)#/media/File:Toby-maguire-Spider-Man.jpg",
-//         isActive: true
-//       }
-//     ]
+async function createInitialUsers():Promise<void> {
+  console.log("Starting to create users...");
+  try {
+    const usersToCreate = [
+      {
+        firstName: "Peter",
+        lastName: "Parker",
+        email: "spiderman@cointrip.com",
+        password: "ilovemj",
+        profilePicture: "./images/spiderman.png",
+        isActive: true
+      },
+      {
+        firstName: "Tony",
+        lastName: "Stark",
+        email: "ironman@cointrip.com",
+        password: "everyonelovesironman",
+        profilePicture: "./images/tonystark.png",
+        isActive: true
+      },
+      {
+        firstName: "Steven",
+        lastName: "Strange",
+        email: "drstrange@cointrip.com",
+        password: "sorcerysupreme",
+        profilePicture: "./images/drstrange.jpg",
+        isActive: true
+      },
+      {
+        firstName: "Steve",
+        lastName: "Rogers",
+        email: "captainamerica@cointrip.com",
+        password: "americasass",
+        profilePicture: "./images/cptamerica.jpg",
+        isActive: true
+      }
+    ];
 
-//   }
-// }
+    const users = await Promise.all(
+      usersToCreate.map((user) => createUser(user))
+    );
 
-const rebuildDB = async () => {
+    console.log("Users created: ");
+    console.log(users);
+    console.log("Finished creating users");
+  } catch (e) {
+    console.log("Error creating users =/");
+    throw e;
+  }
+}
+
+async function createInitialTransactions(): Promise<void> {
+  try {
+    console.log("Starting to create transactions");
+    const transactionsToCreate = [
+      {
+        initiateId: 3,
+        amount: 15000,
+        recipientId: 2,
+        date: "2016-01-14",
+        notes: "Thank you for the suit Mr. Stark"
+      },
+      {
+        initiateId: 1,
+        amount: 2000,
+        recipientId: 2,
+        date: "2018-05-21",
+        notes: "The new machine works great Tony"
+      },
+      {
+        initiateId: 4,
+        amount: 30,
+        recipientId: 1,
+        date: "2018-06-30",
+        notes: "I appreciate you showing me magic"
+      },
+      {
+        initiateId: 2,
+        amount: 2000,
+        recipientId: 1,
+        date: "2018-05-22",
+        notes: "I don't need the money Mr. Wizard"
+      },
+      {
+        initiateId: 3,
+        amount: 8,
+        recipientId: 1,
+        date: "2021-12-20",
+        notes: "My split for the pizza, sir!"
+      },
+      {
+        initiateId: 3,
+        amount: 2,
+        recipientId: 1,
+        date: "2020-12-25",
+        notes: "Sorry about the spell! T.T"
+      },
+      {
+        initiateId: 1,
+        amount: 2,
+        recipientId: 3,
+        date: "2020-12-25",
+        notes: "Kid... just stop"
+      },  
+    ];
+
+    const transactions = await Promise.all(
+      transactionsToCreate.map((transaction) => createTransaction(transaction))
+    );
+
+    console.log("Transactions created: ");
+    console.log(transactions);
+    
+  } catch (e) {
+    console.log("Error creating transactions =/");
+    throw e;
+  }
+}
+async function rebuildDB(): Promise<void> {
   try {
     client.connect();
     await dropTables();
     await createTables();
+    await createInitialUsers();
   } catch (e) {
     console.log("Error during rebuildDB");
     throw e;
@@ -75,5 +178,6 @@ const rebuildDB = async () => {
 }
 
 module.exports = {
-  rebuildDB
+  rebuildDB,
+  createInitialUsers
 };
