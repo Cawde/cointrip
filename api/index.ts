@@ -1,4 +1,4 @@
-import express, {Application, Request, Response, NextFunction } from 'express';
+import express, {Request, Response, NextFunction } from 'express';
 const apiRouter = express.Router();
 const { getUserById } = require('../database/users');
 const jwt = require('jsonwebtoken');

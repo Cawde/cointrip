@@ -1,5 +1,4 @@
 import { NextFunction } from "express";
-import { ReplOptions } from "repl";
 
 const express = require('express');
 const usersRouter = express.Router();
