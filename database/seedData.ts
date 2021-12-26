@@ -171,6 +171,7 @@ async function rebuildDB(): Promise<void> {
     await dropTables();
     await createTables();
     await createInitialUsers();
+    await createInitialTransactions();
   } catch (e) {
     console.log("Error during rebuildDB");
     throw e;

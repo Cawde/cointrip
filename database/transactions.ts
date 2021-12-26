@@ -16,11 +16,12 @@ async function createTransaction({initiateId, amount, recipientId, date, notes}:
   }
 }
 
-async function getTransactionsByInitiateId(id:number) {
+async function getTransactionsByInitiateOrRecipientId(id:number) {
   try {
     const { rows } = await client.query(`
       SELECT * FROM transactions
-      WHERE "initiateId"=$1;
+      WHERE "initiateId"=$1
+      OR "recipientId"=$1;
     `,[id])
 
     return rows;
@@ -29,21 +30,7 @@ async function getTransactionsByInitiateId(id:number) {
   }
 }
 
-async function getTransactionsByRecipientId(id:number) {
-  try {
-    const { rows } = await client.query(`
-    SELECT * FROM transactions
-    WHERE "recipientId"=$1;
-  `,[id]);
-
-  return rows;
-  } catch (e) {
-    throw e;
-  }
-}
-
 module.exports = {
   createTransaction,
-  getTransactionsByInitiateId,
-  getTransactionsByRecipientId
+  getTransactionsByInitiateOrRecipientId
 }
