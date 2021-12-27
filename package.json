@@ -26,9 +26,9 @@
     "typescript": "^4.5.4"
   },
   "scripts": {
-    "seed:dev": "nodemon ./models/seed.ts",
-    "seed": "node ./models/seed.ts",
-    "start:dev": "nodemon index.ts",
+    "seed:dev": "nodemon src/models/seed.ts",
+    "seed": "node src/models/seed.ts",
+    "start:dev": "nodemon src/index.ts",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc -p ."
