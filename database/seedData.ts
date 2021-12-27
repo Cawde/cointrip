@@ -56,7 +56,7 @@ async function createInitialUsers():Promise<void> {
         lastName: "Parker",
         email: "spiderman@cointrip.com",
         password: "ilovemj",
-        profilePicture: "./images/spiderman.png",
+        profilePicture: "https://imgur.com/hiMYaVp",
         isActive: true
       },
       {
@@ -64,7 +64,7 @@ async function createInitialUsers():Promise<void> {
         lastName: "Stark",
         email: "ironman@cointrip.com",
         password: "everyonelovesironman",
-        profilePicture: "./images/tonystark.png",
+        profilePicture: "https://imgur.com/Dke5JJt",
         isActive: true
       },
       {
@@ -72,7 +72,7 @@ async function createInitialUsers():Promise<void> {
         lastName: "Strange",
         email: "drstrange@cointrip.com",
         password: "sorcerysupreme",
-        profilePicture: "./images/drstrange.jpg",
+        profilePicture: "https://imgur.com/Jkx1AwX",
         isActive: true
       },
       {
@@ -80,7 +80,7 @@ async function createInitialUsers():Promise<void> {
         lastName: "Rogers",
         email: "captainamerica@cointrip.com",
         password: "americasass",
-        profilePicture: "./images/cptamerica.jpg",
+        profilePicture: "https://imgur.com/jIaMyqg",
         isActive: true
       }
     ];

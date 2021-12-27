@@ -40,7 +40,7 @@ usersRouter.post('/register', async (req:any, res:any, next:NextFunction) => {
         message: "This email has already been used to register with Cointrip."
       })
     } else {
-      let profilePicture:string = './images/coin.png';
+      let profilePicture:string = 'https://imgur.com/uW4gXnS';
       const user = await createUser({
         firstName,
         lastName,
