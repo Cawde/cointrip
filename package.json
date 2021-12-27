@@ -31,7 +31,7 @@
   },
   "scripts": {
     "seed:dev": "nodemon src/models/seed.ts",
-    "seed": "node src/models/seed.ts",
+    "seed": "node dist/models/seed.js",
     "start:dev": "nodemon src/index.ts",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
