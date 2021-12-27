@@ -1,7 +1,4 @@
 import { NextFunction } from "express";
-
-const express = require('express');
-const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const {  
   createUser,
@@ -11,14 +8,9 @@ const {
   updateUser,
   deleteUser,
   deactivateUser
-} = require('../database/users');
+} = require('../models/users');
 
-usersRouter.use((req: any, res:any, next:NextFunction) => {
-  console.log('A request is being made to /users');
-  next();
-});
-
-usersRouter.get('/', async (req:any, res: any) => {
+async function getAllUsers_get(req: Request, res:any, next:NextFunction) {
   try {
     const users = await getAllUsers();
     res.send({
@@ -27,9 +19,9 @@ usersRouter.get('/', async (req:any, res: any) => {
   } catch (e) {
     console.log(e);
   }
-});
+}
 
-usersRouter.post('/register', async (req:any, res:any, next:NextFunction) => {
+async function registerUser_post(req:any, res:any, next:NextFunction) {
   const {firstName, lastName, email, password } = req.body;
   try {
     const _user = await getUserByEmail(email);
@@ -70,9 +62,9 @@ usersRouter.post('/register', async (req:any, res:any, next:NextFunction) => {
   } catch ({name, message}) {
     next({name, message});
   }
-})
+}
 
-usersRouter.post('/login', async (req:any, res:any, next:NextFunction) => {
+async function loginUser_post(req:any, res:any, next:NextFunction) {
   const { email, password } = req.body;
   
   if (!email || !password) {
@@ -111,9 +103,9 @@ usersRouter.post('/login', async (req:any, res:any, next:NextFunction) => {
     } catch (e) {
     next(e);
   }
-});
+}
 
-usersRouter.patch('/:userId', async (req: any, res:any, next:NextFunction) => {
+async function updateUser_patch (req: any, res:any, next:NextFunction) {
   const { userId } = req.params;
   const { firstName, lastName, email, password, profilePicture, isActive } = req.body;
 
@@ -135,9 +127,9 @@ usersRouter.patch('/:userId', async (req: any, res:any, next:NextFunction) => {
   } catch (e) {
     next(e);
   }
-});
+}
 
-usersRouter.patch('/deactivate/:userId', async (req:any, res:any, next:NextFunction) => {
+async function deactivateUser_patch (req:any, res:any, next:NextFunction) {
   const { userId } = req.params;
 
   try {
@@ -149,9 +141,9 @@ usersRouter.patch('/deactivate/:userId', async (req:any, res:any, next:NextFunct
   } catch (e) {
     next(e);
   }
-})
+}
 
-usersRouter.delete('/:userId', async (req:any, res:any, next:NextFunction) => {
+async function deleteUser_delete (req:any, res:any, next:NextFunction) {
   const { userId } = req.params;
 
   try {
@@ -163,6 +155,13 @@ usersRouter.delete('/:userId', async (req:any, res:any, next:NextFunction) => {
   } catch (e) {
     next(e);
   }
-});
+}
 
-module.exports = usersRouter;
+module.exports = {
+  getAllUsers_get,
+  registerUser_post,
+  loginUser_post,
+  updateUser_patch,
+  deactivateUser_patch,
+  deleteUser_delete
+}

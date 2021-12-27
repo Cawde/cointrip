@@ -14,22 +14,10 @@ server.use(bodyParser.json());
 const cors = require('cors');
 server.use(cors());
 
-const apiRouter = require('./api');
+const apiRouter = require('./routes');
 server.use('/api', apiRouter);
 
-const client = require('./database/client');
-
-
-// server.use((error:any, req:Request, res:any, next:NextFunction) => {
-//   console.error("SERVER ERROR: ", error);
-//   if (res.statusCode < 400) res.status(500);
-//   res.send({
-//     error: error.message,
-//     name: error.name,
-//     message: error.message,
-//     table: error.table,
-//   });
-// });
+const client = require('./models/client');
 
 server.listen(PORT, function () {
   console.log(`Server running on port: ${PORT}`);
