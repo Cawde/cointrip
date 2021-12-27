@@ -1,4 +1,3 @@
-export {};
 const { rebuildDB } = require('./seedData');
 const client = require('./client');
 
