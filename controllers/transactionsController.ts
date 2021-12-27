@@ -1,11 +1,11 @@
-import { NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 
 const {
   createTransaction,
   getAllTransactions
 } = require('../models/transactions');
 
-async function getAllTransactions_get (req:any, res:any, next:NextFunction) {
+async function getAllTransactions_get (req:Request, res:Response, next:NextFunction) {
   try {
    const transactions = await getAllTransactions();
    res.send({transactions});
@@ -15,7 +15,7 @@ async function getAllTransactions_get (req:any, res:any, next:NextFunction) {
   }
 }
 
-async function createTransaction_post (req:any, res:any, next:NextFunction) {
+async function createTransaction_post (req:Request, res:Response, next:NextFunction) {
   const { initiateId, recipientId, amount, date, notes} = req.body;
 
   try {

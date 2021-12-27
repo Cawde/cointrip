@@ -1,4 +1,4 @@
-import { NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 const jwt = require('jsonwebtoken');
 const {  
   createUser,
@@ -10,7 +10,7 @@ const {
   deactivateUser
 } = require('../models/users');
 
-async function getAllUsers_get(req: Request, res:any, next:NextFunction) {
+async function getAllUsers_get(req: Request, res:Response, next:NextFunction) {
   try {
     const users = await getAllUsers();
     res.send({
@@ -21,7 +21,7 @@ async function getAllUsers_get(req: Request, res:any, next:NextFunction) {
   }
 }
 
-async function registerUser_post(req:any, res:any, next:NextFunction) {
+async function registerUser_post(req:Request, res:Response, next:NextFunction) {
   const {firstName, lastName, email, password } = req.body;
   try {
     const _user = await getUserByEmail(email);
@@ -64,7 +64,7 @@ async function registerUser_post(req:any, res:any, next:NextFunction) {
   }
 }
 
-async function loginUser_post(req:any, res:any, next:NextFunction) {
+async function loginUser_post(req:Request, res:Response, next:NextFunction) {
   const { email, password } = req.body;
   
   if (!email || !password) {
@@ -105,7 +105,7 @@ async function loginUser_post(req:any, res:any, next:NextFunction) {
   }
 }
 
-async function updateUser_patch (req: any, res:any, next:NextFunction) {
+async function updateUser_patch (req: Request, res:Response, next:NextFunction) {
   const { userId } = req.params;
   const { firstName, lastName, email, password, profilePicture, isActive } = req.body;
 
@@ -129,7 +129,7 @@ async function updateUser_patch (req: any, res:any, next:NextFunction) {
   }
 }
 
-async function deactivateUser_patch (req:any, res:any, next:NextFunction) {
+async function deactivateUser_patch (req:Request, res:Response, next:NextFunction) {
   const { userId } = req.params;
 
   try {
@@ -143,7 +143,7 @@ async function deactivateUser_patch (req:any, res:any, next:NextFunction) {
   }
 }
 
-async function deleteUser_delete (req:any, res:any, next:NextFunction) {
+async function deleteUser_delete (req:Request, res:Response, next:NextFunction) {
   const { userId } = req.params;
 
   try {

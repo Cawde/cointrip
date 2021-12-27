@@ -3,7 +3,7 @@ const client = require('./client');
 import * as bcrypt from "bcrypt";
 const SALT_COUNT:number = 10;
 
-async function createUser({ firstName, lastName, email, password, profilePicture, isActive }: any) {
+async function createUser({ firstName, lastName, email, password, profilePicture, isActive }: any):Promise<any> {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
     const { rows: [user] } = await client.query(`
@@ -19,7 +19,7 @@ async function createUser({ firstName, lastName, email, password, profilePicture
   }
 }
 
-async function getUser({email, password}: any) {
+async function getUser({email, password}: any):Promise<any> {
   try {
     const user = await getUserByEmail(email);
     const hashedPassword = user.password;
@@ -34,7 +34,7 @@ async function getUser({email, password}: any) {
   }
 }
 
-async function getUserByEmail(email:any) {
+async function getUserByEmail(email:any):Promise<any> {
   try {
     const { rows: [user] } = await client.query(`
       SELECT * FROM users
@@ -49,7 +49,7 @@ async function getUserByEmail(email:any) {
   }
 }
 
-async function getUserById(id:number) {
+async function getUserById(id:number):Promise<any> {
   try {
     const {rows: [user]} = await client.query(`
       SELECT * FROM users
@@ -67,7 +67,7 @@ async function getUserById(id:number) {
   }
 }
 
-async function getAllUsers() {
+async function getAllUsers():Promise<any> {
   try {
     const { rows } = await client.query(`
       SELECT *
@@ -83,7 +83,7 @@ async function getAllUsers() {
   }
 }
 
-async function updateUser({ id, firstName, lastName, email, password, profilePicture, isActive}: any) {
+async function updateUser({ id, firstName, lastName, email, password, profilePicture, isActive}: any):Promise<any> {
   const fields = {
     firstName: firstName,
     lastName: lastName,
@@ -121,7 +121,7 @@ async function updateUser({ id, firstName, lastName, email, password, profilePic
   }
 }
 
-async function deactivateUser(id:number) {
+async function deactivateUser(id:number):Promise<any> {
   try {
     await client.query(`
       UPDATE users
@@ -137,7 +137,7 @@ async function deactivateUser(id:number) {
 
 //This function is here as proof of concept however I believe deleting financial information is not the best option so I opted
 //to write a deactivate function instead. The user will be hidden but all their data will be still present in the database in case it is needed at a later date.
-async function deleteUser(id:number) {
+async function deleteUser(id:number):Promise<any> {
   try {
     await client.query(`
       DELETE FROM transactions

@@ -1,7 +1,7 @@
 export {};
 const client = require('./client');
 
-async function createTransaction({initiateId, amount, recipientId, date, notes}: any) {
+async function createTransaction({initiateId, amount, recipientId, date, notes}: any):Promise<any> {
   try {
     const { rows: [transaction] } = await client.query(
       `
@@ -16,7 +16,7 @@ async function createTransaction({initiateId, amount, recipientId, date, notes}:
   }
 }
 
-async function getAllTransactions() {
+async function getAllTransactions():Promise<any> {
   try {
     const { rows } = await client.query(`
       SELECT * 

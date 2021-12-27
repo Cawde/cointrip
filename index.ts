@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { PORT = 3000 } = process.env;
 
-import express, {Application, Request, Response, NextFunction } from 'express';
+import express from 'express';
 const server = express();
 
 const morgan = require("morgan");
