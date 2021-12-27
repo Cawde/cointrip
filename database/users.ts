@@ -1,13 +1,13 @@
 export {};
 const client = require('./client');
-const bcrypt = require('bcrypt');
+import * as bcrypt from "bcrypt";
 const SALT_COUNT:number = 10;
 
 async function createUser({ firstName, lastName, email, password, profilePicture, isActive }: any) {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
     const { rows: [user] } = await client.query(`
-      INSERT INTO users(firstName, lastName, email, password, profilePicture, isActive)
+      INSERT INTO users("firstName", "lastName", email, password, "profilePicture", "isActive")
       VALUES($1, $2, $3, $4, $5, $6)
       RETURNING *;
       `, [firstName, lastName, email, hashedPassword, profilePicture, isActive]);
@@ -34,15 +34,17 @@ async function getUser({email, password}: any) {
   }
 }
 
-async function getUserByEmail(email:string) {
+async function getUserByEmail(email:any) {
   try {
-    const { rows: [user] } = client.query(`
+    const { rows: [user] } = await client.query(`
       SELECT * FROM users
       WHERE email=$1;
-    `, [email]);
+    `, [email]
+    );
     
     return user;
   } catch (e) {
+    console.log(e);
     throw e;
   }
 }
@@ -52,7 +54,8 @@ async function getUserById(id:number) {
     const {rows: [user]} = await client.query(`
       SELECT * FROM users
       WHERE id=$1,
-      `,[id]);
+      `,[id]
+      );
 
     if(!user) {
       return null;
@@ -68,8 +71,12 @@ async function getAllUsers() {
   try {
     const { rows } = await client.query(`
       SELECT *
-      FROM users;`);
-
+      FROM users;
+      `);
+    
+    for (const user of rows) {
+      delete user.password
+    }
     return rows;
   } catch (e) {
     throw e;

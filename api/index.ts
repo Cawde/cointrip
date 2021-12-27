@@ -41,10 +41,10 @@ apiRouter.use((req: any, res: Response, next: NextFunction) => {
 });
 
 const usersRouter = require('./users');
-apiRouter.use('./users', usersRouter);
+apiRouter.use('/users', usersRouter);
 
 const transactionsRouter = require('./transactions');
-apiRouter.use('./transations', transactionsRouter);
+apiRouter.use('/transactions', transactionsRouter);
 
 apiRouter.use((error:Error, req:Request, res:Response, next:NextFunction) => {
   res.send(error);

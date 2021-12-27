@@ -23,19 +23,19 @@ async function createTables():Promise<void> {
     await client.query(`
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
-        firstName VARCHAR(255) NOT NULL,
-        lastName VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
+        "firstName" VARCHAR(255) NOT NULL,
+        "lastName" VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
-        profilePicture VARCHAR(255),
-        isActive BOOLEAN DEFAULT TRUE
+        "profilePicture" VARCHAR(255),
+        "isActive" BOOLEAN DEFAULT TRUE
       );
 
       CREATE TABLE transactions (
         id SERIAL PRIMARY KEY,
-        initiateId INTEGER NOT NULL,
+        "initiateId" INTEGER NOT NULL,
         amount FLOAT NOT NULL,
-        recipientId INTEGER NOT NULL,
+        "recipientId" INTEGER NOT NULL,
         date DATE NOT NULL,
         notes TEXT
       );

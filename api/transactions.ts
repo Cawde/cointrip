@@ -4,26 +4,29 @@ const express = require('express');
 const transactionsRouter = express.Router();
 const {
   createTransaction,
-  getTransactionsByInitiateOrRecipientId
+  getAllTransactions
 } = require('../database/transactions');
 
+transactionsRouter.use((req: any, res:any, next:NextFunction) => {
+  console.log('A request is being made to /transactions');
+  next();
+});
+
 transactionsRouter.get('/', async (req:any, res:any, next:NextFunction) => {
-  const { id } = req.body;
   try {
-   const transactions = await getTransactionsByInitiateOrRecipientId(id);
-   res.send(transactions);
+   const transactions = await getAllTransactions();
+   res.send({transactions});
 
   } catch (e) {
     next(e);
   }
 });
 
-transactionsRouter.post('/:userId', async (req:any, res:any, next:NextFunction) => {
-  const { userId } = req.params;
-  const { recipientId, amount, date, notes} = req.body;
+transactionsRouter.post('/', async (req:any, res:any, next:NextFunction) => {
+  const { initiateId, recipientId, amount, date, notes} = req.body;
 
   try {
-    const transaction = await createTransaction({initiateId: userId, amount, recipientId, date, notes});
+    const transaction = await createTransaction({initiateId, amount, recipientId, date, notes});
 
     res.send({
       message: "Transaction successful!",
@@ -33,3 +36,5 @@ transactionsRouter.post('/:userId', async (req:any, res:any, next:NextFunction) 
     next(e);
   }
 })
+
+module.exports = transactionsRouter;

@@ -13,30 +13,27 @@ const {
   deactivateUser
 } = require('../database/users');
 
-usersRouter.use((next:NextFunction) => {
+usersRouter.use((req: any, res:any, next:NextFunction) => {
   console.log('A request is being made to /users');
-
   next();
 });
 
-usersRouter.get('/', async (res: any) => {
+usersRouter.get('/', async (req:any, res: any) => {
   try {
     const users = await getAllUsers();
     res.send({
-      users
+      users,
     });
   } catch (e) {
     console.log(e);
   }
-})
+});
 
 usersRouter.post('/register', async (req:any, res:any, next:NextFunction) => {
   const {firstName, lastName, email, password } = req.body;
-
   try {
-
     const _user = await getUserByEmail(email);
-
+    console.log(_user);
     if (_user) {
       next({
         name: "UserExistsError",
@@ -52,7 +49,6 @@ usersRouter.post('/register', async (req:any, res:any, next:NextFunction) => {
         profilePicture,
         isActive:true
       })
-
       const token = jwt.sign(
         {
           id: user.id,
@@ -141,7 +137,7 @@ usersRouter.patch('/:userId', async (req: any, res:any, next:NextFunction) => {
   }
 });
 
-usersRouter.patch('/:userId', async (req:any, res:any, next:NextFunction) => {
+usersRouter.patch('/deactivate/:userId', async (req:any, res:any, next:NextFunction) => {
   const { userId } = req.params;
 
   try {
