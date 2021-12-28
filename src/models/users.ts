@@ -3,7 +3,16 @@ const client = require('./client');
 import * as bcrypt from "bcrypt";
 const SALT_COUNT:number = 10;
 
-async function createUser({ firstName, lastName, email, password, profilePicture, isActive }: any):Promise<any> {
+export interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  profilePicture: string;
+  isActive: boolean;
+}
+
+async function createUser({ firstName, lastName, email, password, profilePicture, isActive }: User):Promise<any> {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
     const { rows: [user] } = await client.query(`
@@ -19,7 +28,7 @@ async function createUser({ firstName, lastName, email, password, profilePicture
   }
 }
 
-async function getUser({email, password}: any):Promise<any> {
+async function getUser({email, password}: User):Promise<any> {
   try {
     const user = await getUserByEmail(email);
     const hashedPassword = user.password;
@@ -34,7 +43,7 @@ async function getUser({email, password}: any):Promise<any> {
   }
 }
 
-async function getUserByEmail(email:any):Promise<any> {
+async function getUserByEmail(email:string):Promise<any> {
   try {
     const { rows: [user] } = await client.query(`
       SELECT * FROM users

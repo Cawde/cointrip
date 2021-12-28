@@ -1,7 +1,15 @@
 export {};
 const client = require('./client');
 
-async function createTransaction({initiateId, amount, recipientId, date, notes}: any):Promise<any> {
+export interface Transaction {
+  initiateId: number;
+  amount: number;
+  recipientId: number;
+  date: Date;
+  notes: string;
+}
+
+async function createTransaction({initiateId, amount, recipientId, date, notes}: Transaction):Promise<any> {
   try {
     const { rows: [transaction] } = await client.query(
       `

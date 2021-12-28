@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { User } from "../models/users";
 const jwt = require('jsonwebtoken');
 const {  
   createUser,
@@ -22,7 +23,7 @@ async function getAllUsers_get(req: Request, res:Response, next:NextFunction) {
 }
 
 async function registerUser_post(req:Request, res:Response, next:NextFunction) {
-  const {firstName, lastName, email, password } = req.body;
+  const {firstName, lastName, email, password }: User = req.body;
   try {
     const _user = await getUserByEmail(email);
     console.log(_user);
@@ -65,7 +66,7 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
 }
 
 async function loginUser_post(req:Request, res:Response, next:NextFunction) {
-  const { email, password } = req.body;
+  const { email, password }: User = req.body;
   
   if (!email || !password) {
     next({
@@ -107,7 +108,7 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
 
 async function updateUser_patch (req: Request, res:Response, next:NextFunction) {
   const { userId } = req.params;
-  const { firstName, lastName, email, password, profilePicture, isActive } = req.body;
+  const { firstName, lastName, email, password, profilePicture, isActive }: User = req.body;
 
   try {
     const updatedUser = await updateUser({

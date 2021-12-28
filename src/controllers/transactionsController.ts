@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-
+import { Transaction } from "../models/transactions";
 const {
   createTransaction,
   getAllTransactions
 } = require('../models/transactions');
+
 
 async function getAllTransactions_get (req:Request, res:Response, next:NextFunction) {
   try {
@@ -16,7 +17,7 @@ async function getAllTransactions_get (req:Request, res:Response, next:NextFunct
 }
 
 async function createTransaction_post (req:Request, res:Response, next:NextFunction) {
-  const { initiateId, recipientId, amount, date, notes} = req.body;
+  const { initiateId, recipientId, amount, date, notes }: Transaction = req.body;
 
   try {
     const transaction = await createTransaction({initiateId, amount, recipientId, date, notes});
