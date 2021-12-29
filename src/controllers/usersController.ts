@@ -57,7 +57,8 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
       res.send({
         message: "Thank you for registering with Cointrip!",
         token,
-        userId: user.id
+        userId: user.id,
+        success: true
       });
     }
   } catch ({name, message}) {
@@ -93,12 +94,14 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
         res.send({
           message: "Log in successful!",
           token: token,
-          userId: user.id
+          userId: user.id,
+          success: true
         });
       } else {
         next({
           name: "IncorrectCredentialsError",
-          message: "Email or password is incorrect."
+          message: "Email or password is incorrect.",
+          success: false
         });
       }
     } catch (e) {
