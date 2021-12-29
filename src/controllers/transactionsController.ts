@@ -17,10 +17,10 @@ async function getAllTransactions_get (req:Request, res:Response, next:NextFunct
 }
 
 async function createTransaction_post (req:Request, res:Response, next:NextFunction) {
-  const { initiateId, recipientId, amount, date, notes }: Transaction = req.body;
+  const { initiateId, amount, recipientId, recipientEmail, recipientName, date, notes }: Transaction = req.body;
 
   try {
-    const transaction = await createTransaction({initiateId, amount, recipientId, date, notes});
+    const transaction = await createTransaction({initiateId, amount, recipientId, recipientEmail, recipientName, date, notes});
 
     res.send({
       message: "Transaction successful!",
