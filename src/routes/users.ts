@@ -3,7 +3,7 @@ import { NextFunction } from "express";
 const express = require('express');
 const usersRouter = express.Router();
 const { getAllUsers_get, userDashboard_get, registerUser_post, loginUser_post, updateUser_patch, deactivateUser_patch, deleteUser_delete } = require('../controllers/usersController');
-const authenticateCookie = require('../utils');
+const authenticateCookie = require('../utils/authenticateCookie');
 
 usersRouter.use((req: any, res:any, next:NextFunction) => {
   console.log('A request is being made to /users');
