@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 import { Transaction } from "../models/transactions";
 const {
   createTransaction,
@@ -23,7 +23,7 @@ async function createTransaction_post (req:Request, res:Response, next:NextFunct
     const transaction = await createTransaction({initiateId, amount, recipientId, recipientEmail, recipientName, date, notes});
 
     res.send({
-      message: "Transaction successful!",
+      message: 'Transaction successful!',
       transaction: transaction
     })
   } catch (e) {

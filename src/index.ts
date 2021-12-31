@@ -1,29 +1,29 @@
 require('dotenv').config();
 import express from 'express';
-const PORT = process.env.PORT || 5000;
+const { PORT = 5000, NODE_ENV } = process.env;
 
 const server = express();
 
 const cookieParser = require('cookie-parser');
 server.use(cookieParser());
 
-const morgan = require("morgan");
-server.use(morgan("dev"));
+const morgan = require('morgan');
+server.use(morgan('dev'));
 
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 
 
-//CHANGE ORIGIN ON PROJECT COMPLETION!!!!!!!
+//CHANGE ORIGIN ON PROJECT COMPLETION FROM TEST TO PRODUCTION!!!!!!!
 const cors = require('cors');
-server.use(cors({
-  origin: "http://localhost:3000",
+const corsOptions = {
+  origin: NODE_ENV === 'production' ? 'https://fierce-sea-46269.herokuapp.com/' : 'http://localhost:3000',
   credentials: true,
-  methods: "GET, POST, PATCH, DELETE",
-  headers: "Origin, Content-Type, Authorization"
-
-}));
+  methods: 'GET, POST, PATCH, DELETE',
+  headers: 'Origin, Content-Type, Authorization'
+}
+server.use(cors(corsOptions));
 
 const apiRouter = require('./routes');
 server.use('/api', apiRouter);

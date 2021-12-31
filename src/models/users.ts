@@ -1,6 +1,6 @@
 export {};
 const client = require('./client');
-import * as bcrypt from "bcrypt";
+import * as bcrypt from 'bcrypt';
 const SALT_COUNT:number = 10;
 
 export interface User {

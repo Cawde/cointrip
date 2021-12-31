@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import { User } from "../models/users";
+import { Request, Response, NextFunction } from 'express';
+import { User } from '../models/users';
 const jwt = require('jsonwebtoken');
+const { JWT_SECRET, NODE_ENV } = process.env;
 const {  
   createUser,
   getUser,
@@ -51,8 +52,8 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
     console.log(_user);
     if (_user) {
       next({
-        name: "UserExistsError",
-        message: "This email has already been used to register with Cointrip."
+        name: 'UserExistsError',
+        message: 'This email has already been used to register with Cointrip.'
       })
     } else {
       let profilePicture:string = 'https://imgur.com/uW4gXnS';
@@ -69,10 +70,8 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
       const token = jwt.sign(
         {
           id: user.id,
-          userFullName: `${user.firstName} ${user.lastName}`,
-          email: user.email
         },
-        process.env.JWT_SECRET,
+          JWT_SECRET,
         {
           expiresIn: '1w'
         }
@@ -81,7 +80,7 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
       res.cookie('token', token, {expires: new Date(Date.now() + 2 * 3600000), httpOnly: true});
 
       res.send({
-        message: "Thank you for registering with Cointrip!",
+        message: 'Thank you for registering with Cointrip!',
         token,
         userId: user.id,
         success: true
@@ -97,8 +96,8 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
 
   if (!email || !password) {
     next({
-      name: "MissingCredentialsError",
-      message: "Please supply both a valid email and password"
+      name: 'MissingCredentialsError',
+      message: 'Please supply both a valid email and password'
     });
   }
 
@@ -108,27 +107,30 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
         const token = jwt.sign(
           {
             id: user.id,
-            userFullName: `${user.firstName} ${user.lastName}`,
-            email: user.email
           },
-          process.env.JWT_SECRET,
+            JWT_SECRET,
           {
             expiresIn: '1w'
           }
         );
 
-        res.cookie('token', token, {expires: new Date(Date.now() + 2 * 3600000), httpOnly: true});
+        res.cookie("token", token, {
+          expires: new Date(Date.now() + 2 * 3600000),
+          httpOnly: true,
+          sameSite: NODE_ENV === 'production' ? true : 'none',
+          secure: NODE_ENV === 'production' ? false : true,
+        });
   
         res.send({
-          message: "Log in successful!",
+          message: 'Log in successful!',
           token: token,
           userId: user.id,
           success: true
         });
       } else {
         next({
-          name: "IncorrectCredentialsError",
-          message: "Email or password is incorrect.",
+          name: 'IncorrectCredentialsError',
+          message: 'Email or password is incorrect.',
           success: false
         });
       }
@@ -153,7 +155,7 @@ async function updateUser_patch (req: Request, res:Response, next:NextFunction) 
     })
 
     res.send({
-      message: "Your account was successfully updated!",
+      message: 'Your account was successfully updated!',
       user: updatedUser
     })
   } catch (e) {
@@ -167,7 +169,7 @@ async function deactivateUser_patch (req:Request, res:Response, next:NextFunctio
   try {
     const deactivatedUser = await deactivateUser(userId);
     res.send({
-      message: "The account has been successfully deactivated.",
+      message: 'The account has been successfully deactivated.',
       deactivatedUser: deactivatedUser
     })
   } catch (e) {
@@ -181,7 +183,7 @@ async function deleteUser_delete (req:Request, res:Response, next:NextFunction) 
   try {
     const deletedUser = await deleteUser(userId);
     res.send({
-      message: "User was successfully deleted",
+      message: 'User was successfully deleted',
       deletedUser: deletedUser
     })
   } catch (e) {
