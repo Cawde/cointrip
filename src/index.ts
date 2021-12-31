@@ -16,10 +16,9 @@ server.use(bodyParser.json());
 
 
 //CHANGE ORIGIN ON PROJECT COMPLETION FROM TEST TO PRODUCTION!!!!!!!
-// NODE_ENV === 'production' ?  : 'http://localhost:3000'
 const cors = require('cors');
 const corsOptions = {
-  origin: 'https://fierce-sea-46269.herokuapp.com/',
+  origin: NODE_ENV === 'production' ? 'https://fierce-sea-46269.herokuapp.com/' : 'http://localhost:3000',
   credentials: true,
   methods: 'GET, POST, PATCH, DELETE',
   headers: 'Origin, Content-Type, Authorization'
