@@ -1,8 +1,11 @@
 require('dotenv').config();
+import express from 'express';
 const PORT = process.env.PORT || 5000;
 
-import express from 'express';
 const server = express();
+
+const cookieParser = require('cookie-parser');
+server.use(cookieParser());
 
 const morgan = require("morgan");
 server.use(morgan("dev"));

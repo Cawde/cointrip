@@ -6,10 +6,13 @@ const {
   getUser,
   getUserByEmail,
   getAllUsers,
+  getUserById,
   updateUser,
   deleteUser,
   deactivateUser
 } = require('../models/users');
+
+const { getAllTransactions } = require('../models/transactions');
 
 async function getAllUsers_get(req: Request, res:Response, next:NextFunction) {
   try {
@@ -19,6 +22,25 @@ async function getAllUsers_get(req: Request, res:Response, next:NextFunction) {
     });
   } catch (e) {
     console.log(e);
+  }
+}
+
+async function userDashboard_get(req: Request, res:Response, next:NextFunction) {
+  const { userId } = req.params;
+  try {
+    const user = getUserById(userId);
+    const userTransactions = getAllTransactions().filter(
+      (transaction: { initiateId: string; recipientId: string }) =>
+        transaction.initiateId === userId || transaction.recipientId === userId
+    );
+
+    res.send({
+      user,
+      userTransactions
+    })
+    
+  } catch (e) {
+    console.log(e)
   }
 }
 
@@ -34,6 +56,7 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
       })
     } else {
       let profilePicture:string = 'https://imgur.com/uW4gXnS';
+      
       const user = await createUser({
         firstName,
         lastName,
@@ -42,6 +65,7 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
         profilePicture,
         isActive:true
       })
+
       const token = jwt.sign(
         {
           id: user.id,
@@ -53,6 +77,8 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
           expiresIn: '1w'
         }
       );
+
+      res.cookie('token', token, {expires: new Date(Date.now() + 2 * 3600000), httpOnly: true});
 
       res.send({
         message: "Thank you for registering with Cointrip!",
@@ -68,7 +94,7 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
 
 async function loginUser_post(req:Request, res:Response, next:NextFunction) {
   const { email, password }: User = req.body;
-  
+
   if (!email || !password) {
     next({
       name: "MissingCredentialsError",
@@ -90,6 +116,8 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
             expiresIn: '1w'
           }
         );
+
+        res.cookie('token', token, {expires: new Date(Date.now() + 2 * 3600000), httpOnly: true});
   
         res.send({
           message: "Log in successful!",
@@ -163,6 +191,7 @@ async function deleteUser_delete (req:Request, res:Response, next:NextFunction) 
 
 module.exports = {
   getAllUsers_get,
+  userDashboard_get,
   registerUser_post,
   loginUser_post,
   updateUser_patch,
