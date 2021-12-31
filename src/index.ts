@@ -15,7 +15,10 @@ server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 
 const cors = require('cors');
-server.use(cors());
+server.use(cors({
+  origin: "https://fierce-sea-46269.herokuapp.com",
+  credentials: true
+}));
 
 const apiRouter = require('./routes');
 server.use('/api', apiRouter);
