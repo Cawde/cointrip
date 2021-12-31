@@ -56,7 +56,7 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
       })
     } else {
       let profilePicture:string = 'https://imgur.com/uW4gXnS';
-      
+
       const user = await createUser({
         firstName,
         lastName,
