@@ -14,12 +14,14 @@ const bodyParser = require("body-parser");
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 
+
+//CHANGE ORIGIN ON PROJECT COMPLETION!!!!!!!
 const cors = require('cors');
 server.use(cors({
-  origin: "https://fierce-sea-46269.herokuapp.com",
+  origin: "http://localhost:3000",
   credentials: true,
-  methods: "GET, POST, OPTIONS",
-  headers: "Origin, Content-Type"
+  methods: "GET, POST, PATCH, DELETE",
+  headers: "Origin, Content-Type, Authorization"
 
 }));
 
