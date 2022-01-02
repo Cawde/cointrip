@@ -11,7 +11,7 @@ usersRouter.use((req: any, res:any, next:NextFunction) => {
 });
 
 usersRouter.get('/', getAllUsers_get);
-usersRouter.get('/dashboard/:userId', authenticateCookie, userDashboard_get);
+usersRouter.get('/dashboard/:userId', userDashboard_get);
 usersRouter.post('/register', registerUser_post);
 usersRouter.post('/login', loginUser_post);
 usersRouter.patch('/:userId', updateUser_patch);

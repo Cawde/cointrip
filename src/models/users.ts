@@ -1,7 +1,6 @@
 export {};
 const client = require('./client');
 import * as bcrypt from 'bcrypt';
-const SALT_COUNT:number = 10;
 
 export interface User {
   firstName: string;
@@ -14,7 +13,7 @@ export interface User {
 
 async function createUser({ firstName, lastName, email, password, profilePicture, isActive }: User):Promise<any> {
   try {
-    const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const { rows: [user] } = await client.query(`
       INSERT INTO users("firstName", "lastName", email, password, "profilePicture", "isActive")
       VALUES($1, $2, $3, $4, $5, $6)
@@ -62,7 +61,7 @@ async function getUserById(id:number):Promise<any> {
   try {
     const {rows: [user]} = await client.query(`
       SELECT * FROM users
-      WHERE id=$1,
+      WHERE id=$1;
       `,[id]
       );
 

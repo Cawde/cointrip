@@ -3,19 +3,36 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 
 async function authenticateCookie(req: Request, res: Response, next: NextFunction) {
-  const { cookies } = req;
-  const { id } = req.body;
-
-  jwt.verify(cookies.token, JWT_SECRET, function (decodedToken: { id: any; }) {
-    if (id === decodedToken.id) {
-      next();
-    } else {
-      res.status(403).send({
-        name: "UnauthorizedUserError",
-        message: "User is not authorized to visit this dashboard"
+  const { userId } = req.params;
+  const token = req.cookies.token;
+  console.log(userId);
+  console.log("Attempt to see cookie token: ", token, req.cookies);
+  if (!token) {
+    return res.status(403);
+  }
+  try {
+    const info = jwt.verify(token, JWT_SECRET);
+    console.log("Attempt to see info from jwt verify: ", info);
+    if (userId === info.id) {
+      next({
+        message: "cookie stored."
       })
     }
-  })
-}
+  } catch {
+    return res.status(403);
+  }
+
+  }
+  // jwt.verify(token, JWT_SECRET, function (err: any, decodedToken: { id: any; }) {
+  //   console.log(decodedToken);
+  //   if (id !== decodedToken.id) {
+  //     res.status(500).send({
+  //       message: err.message});
+  //   } else {
+  //     next({
+  //       name: "Cookie successfully stored"
+  //     });
+  //   }
+
 
 module.exports = authenticateCookie;

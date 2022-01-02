@@ -1,9 +1,10 @@
 export {};
 const client = require('./client');
-const { getUserById } = require('./users');
 
 export interface Transaction {
   initiateId: number;
+  initiateName: string;
+  initiateEmail: string;
   amount: number;
   recipientId: number;
   recipientName: string;
@@ -12,13 +13,13 @@ export interface Transaction {
   notes: string;
 }
 
-async function createTransaction({initiateId, amount, recipientId, recipientName, recipientEmail, date, notes}: Transaction):Promise<any> {
+async function createTransaction({initiateId, initiateName, initiateEmail, amount, recipientId, recipientName, recipientEmail, date, notes}: Transaction):Promise<any> {
   try {
     const { rows: [transaction] } = await client.query(`
-      INSERT INTO transactions("initiateId", amount, "recipientId", "recipientName", "recipientEmail", date, notes)
-      VALUES($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO transactions("initiateId", "initiateName", "initiateEmail", amount, "recipientId", "recipientName", "recipientEmail", date, notes)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *;
-      `, [initiateId, amount, recipientId, recipientName, recipientEmail, date, notes]
+      `, [initiateId, initiateName, initiateEmail, amount, recipientId, recipientName, recipientEmail, date, notes]
     );
 
     return transaction;

@@ -29,12 +29,11 @@ async function getAllUsers_get(req: Request, res:Response, next:NextFunction) {
 async function userDashboard_get(req: Request, res:Response, next:NextFunction) {
   const { userId } = req.params;
   try {
-    const user = getUserById(userId);
-    const userTransactions = getAllTransactions().filter(
-      (transaction: { initiateId: string; recipientId: string }) =>
-        transaction.initiateId === userId || transaction.recipientId === userId
-    );
+    const user = await getUserById(userId);
+    delete user.password;
+    const userTransactions:[] = await getAllTransactions();
 
+    console.log(userTransactions);
     res.send({
       user,
       userTransactions
@@ -77,7 +76,7 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
         }
       );
 
-      res.cookie('token', token, {expires: new Date(Date.now() + 2 * 3600000), httpOnly: true});
+      res.cookie('token', token, {expires: new Date(Date.now() + 2 * 3600000), httpOnly: true, secure: NODE_ENV === 'production'});
 
       res.send({
         message: 'Thank you for registering with Cointrip!',
@@ -123,7 +122,7 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
   
         res.send({
           message: 'Log in successful!',
-          token: token,
+          token,
           userId: user.id,
           success: true
         });
@@ -144,20 +143,21 @@ async function updateUser_patch (req: Request, res:Response, next:NextFunction) 
   const { firstName, lastName, email, password, profilePicture, isActive }: User = req.body;
 
   try {
-    const updatedUser = await updateUser({
-      id: userId,
-      firstName,
-      lastName,
-      email,
-      password,
-      profilePicture,
-      isActive
-    })
+    const user = await getUser({email, password});
+    if (user) {
+      const updatedUser = await updateUser({
+        id: userId,
+        firstName,
+        lastName,
+        profilePicture,
+        isActive,
+      });
 
-    res.send({
-      message: 'Your account was successfully updated!',
-      user: updatedUser
-    })
+      res.send({
+        message: "Your account was successfully updated!",
+        user: updatedUser
+      });
+    }
   } catch (e) {
     next(e);
   }

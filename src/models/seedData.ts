@@ -34,10 +34,12 @@ async function createTables():Promise<void> {
       CREATE TABLE transactions (
         id SERIAL PRIMARY KEY,
         "initiateId" INTEGER NOT NULL,
+        "initiateName" VARCHAR(255) NOT NULL,
+        "initiateEmail" VARCHAR(255) NOT NULL,
         amount FLOAT NOT NULL,
         "recipientId" INTEGER NOT NULL,
-        "recipientEmail" VARCHAR(255) NOT NULL,
         "recipientName" VARCHAR(255) NOT NULL,
+        "recipientEmail" VARCHAR(255) NOT NULL,
         date DATE NOT NULL,
         notes TEXT
       );
@@ -106,6 +108,8 @@ async function createInitialTransactions(): Promise<void> {
     const transactionsToCreate = [
       {
         initiateId: 3,
+        initiateName: "Peter",
+        initiateEmail: "spiderman@cointrip.com",
         amount: 15000,
         recipientId: 2,
         recipientName: "Tony",
@@ -115,6 +119,8 @@ async function createInitialTransactions(): Promise<void> {
       },
       {
         initiateId: 1,
+        initiateName: "Steven",
+        initiateEmail: "drstrange@cointrip.com",
         amount: 2000,
         recipientId: 2,
         recipientName: "Tony",
@@ -124,6 +130,8 @@ async function createInitialTransactions(): Promise<void> {
       },
       {
         initiateId: 4,
+        initiateName: "Steve",
+        initiateEmail: "captainamerica@cointrip.com",
         amount: 30,
         recipientId: 1,
         recipientName: "Steven",
@@ -133,6 +141,8 @@ async function createInitialTransactions(): Promise<void> {
       },
       {
         initiateId: 2,
+        initiateName: "Tony",
+        initiateEmail: "ironman@cointrip.com",
         amount: 2000,
         recipientId: 1,
         recipientName: "Steven",
@@ -142,6 +152,8 @@ async function createInitialTransactions(): Promise<void> {
       },
       {
         initiateId: 3,
+        initiateName: "Peter",
+        initiateEmail: "spiderman@cointrip.com",
         amount: 8,
         recipientId: 1,
         recipientName: "Steven",
@@ -151,6 +163,8 @@ async function createInitialTransactions(): Promise<void> {
       },
       {
         initiateId: 3,
+        initiateName: "Peter",
+        initiateEmail: "spiderman@cointrip.com",
         amount: 2,
         recipientId: 1,
         recipientName: "Steven",
@@ -160,6 +174,8 @@ async function createInitialTransactions(): Promise<void> {
       },
       {
         initiateId: 1,
+        initiateName: "Steven",
+        initiateEmail: "drstrange@cointrip.com",
         amount: 2,
         recipientId: 3,
         recipientName: "Peter",

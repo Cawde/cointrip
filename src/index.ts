@@ -14,14 +14,14 @@ const bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 
-
+server.set("trust proxy", 1);
 //CHANGE ORIGIN ON PROJECT COMPLETION FROM TEST TO PRODUCTION!!!!!!!
 const cors = require('cors');
 const corsOptions = {
   origin: NODE_ENV === 'production' ? 'https://fierce-sea-46269.herokuapp.com/' : 'http://localhost:3000',
   credentials: true,
   methods: 'GET, POST, PATCH, DELETE',
-  headers: 'Origin, Content-Type, Authorization'
+  headers: 'Origin, Content-Type, Authorization, Accept'
 }
 server.use(cors(corsOptions));
 
