@@ -28,7 +28,11 @@ async function createTables():Promise<void> {
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         "profilePicture" VARCHAR(255),
-        "isActive" BOOLEAN DEFAULT TRUE
+        "isActive" BOOLEAN DEFAULT TRUE,
+        "isVerified" BOOLEAN DEFAULT FALSE,
+        "hasBank" BOOLEAN DEFAULT FALSE,
+        "customerUrl" VARCHAR(255),
+        "fundingSource" VARCHAR(255)
       );
 
       CREATE TABLE transactions (
@@ -61,7 +65,11 @@ async function createInitialUsers():Promise<void> {
         email: "spiderman@cointrip.com",
         password: "ilovemj",
         profilePicture: "https://imgur.com/hiMYaVp",
-        isActive: true
+        isActive: true,
+        isVerified: true,
+        hasBank: true,
+        customerUrl: "https://api-sandbox.dwolla.com/customers/370b36a7-8ca6-4330-934d-e77e47fa11d8",
+        fundingSource: "https://api-sandbox.dwolla.com/funding-sources/78701018-133f-418f-afd9-bc4fbb0b6006"
       },
       {
         firstName: "Tony",
@@ -69,7 +77,11 @@ async function createInitialUsers():Promise<void> {
         email: "ironman@cointrip.com",
         password: "everyonelovesironman",
         profilePicture: "https://imgur.com/Dke5JJt",
-        isActive: true
+        isActive: true,
+        isVerified: true,
+        hasBank: true,
+        customerUrl: "https://api-sandbox.dwolla.com/customers/99e4461d-347f-4b1d-9164-6f72b38035fb",
+        fundingSource: "https://api-sandbox.dwolla.com/funding-sources/90cfb2d4-b104-4c40-9e79-64efd9dd8b24"
       },
       {
         firstName: "Steven",
@@ -77,7 +89,11 @@ async function createInitialUsers():Promise<void> {
         email: "drstrange@cointrip.com",
         password: "sorcerysupreme",
         profilePicture: "https://imgur.com/Jkx1AwX",
-        isActive: true
+        isActive: true,
+        isVerified: false,
+        hasBank: false,
+        customerUrl: null,
+        fundingSource: null
       },
       {
         firstName: "Steve",
@@ -85,7 +101,11 @@ async function createInitialUsers():Promise<void> {
         email: "captainamerica@cointrip.com",
         password: "americasass",
         profilePicture: "https://imgur.com/jIaMyqg",
-        isActive: true
+        isActive: true,
+        isVerified: false,
+        hasBank: false,
+        customerUrl: null,
+        fundingSource: null
       }
     ];
 

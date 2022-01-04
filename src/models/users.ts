@@ -9,18 +9,21 @@ export interface User {
   password: string;
   profilePicture: string;
   isActive: boolean;
+  isVerified: boolean;
+  hasBank: boolean;
+  customerUrl: string;
+  fundingSource: string;
 }
 
-async function createUser({ firstName, lastName, email, password, profilePicture, isActive }: User):Promise<any> {
+async function createUser({ firstName, lastName, email, password, profilePicture, isActive, isVerified, hasBank, customerUrl, fundingSource}: User):Promise<any> {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const { rows: [user] } = await client.query(`
-      INSERT INTO users("firstName", "lastName", email, password, "profilePicture", "isActive")
-      VALUES($1, $2, $3, $4, $5, $6)
+      INSERT INTO users("firstName", "lastName", email, password, "profilePicture", "isActive", "isVerified", "hasBank", "customerUrl", "fundingSource")
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING *;
-      `, [firstName, lastName, email, hashedPassword, profilePicture, isActive]);
+      `, [firstName, lastName, email, hashedPassword, profilePicture, isActive, isVerified, hasBank, customerUrl, fundingSource]);
 
-    delete user.password;
     return user;
   } catch (e) {
     throw e;
@@ -91,14 +94,18 @@ async function getAllUsers():Promise<any> {
   }
 }
 
-async function updateUser({ id, firstName, lastName, email, password, profilePicture, isActive}: any):Promise<any> {
+async function updateUser({ id, firstName, lastName, email, password, profilePicture, isActive, isVerified, hasBank, customerUrl, fundingSource}: any):Promise<any> {
   const fields = {
     firstName: firstName,
     lastName: lastName,
     email: email,
     password: password,
     profilePicture: profilePicture,
-    isActive: isActive
+    isActive: isActive,
+    isVerified: isVerified,
+    hasBank: hasBank,
+    customerUrl: customerUrl,
+    fundingSource: fundingSource
   }
 
   if (firstName === undefined || firstName === null) delete fields.firstName;
@@ -107,6 +114,10 @@ async function updateUser({ id, firstName, lastName, email, password, profilePic
   if (password === undefined || password === null) delete fields.password;
   if (profilePicture === undefined || profilePicture === null) delete fields.profilePicture;
   if (isActive === undefined || isActive === null) delete fields.isActive;
+  if (isVerified === undefined || isVerified === null) delete fields.isVerified;
+  if (hasBank === undefined || hasBank === null) delete fields.hasBank;
+  if (customerUrl === undefined || customerUrl === null) delete fields.customerUrl;
+  if (fundingSource === undefined || fundingSource === null) delete fields.fundingSource;
 
   const setString = Object.keys(fields).map((key, index) => `"${key}"=$${index + 1}`).join(", ");
 
@@ -115,7 +126,7 @@ async function updateUser({ id, firstName, lastName, email, password, profilePic
   }
 
   try {
-    const { rows: [users] } = await client.query(`
+    const { rows: [user] } = await client.query(`
       UPDATE users
       SET ${setString}
       WHERE id=${id}
@@ -123,7 +134,7 @@ async function updateUser({ id, firstName, lastName, email, password, profilePic
     `, Object.values(fields)
     );
     
-    return users;
+    return user;
   } catch (e) {
     throw e;
   }

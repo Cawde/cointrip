@@ -63,7 +63,11 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
         email,
         password,
         profilePicture,
-        isActive:true
+        isActive: true,
+        isVerified: false,
+        hasBank: false,
+        customerUrl: null, 
+        fundingSource: null
       })
 
       const token = jwt.sign(
@@ -140,10 +144,13 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
 
 async function updateUser_patch (req: Request, res:Response, next:NextFunction) {
   const { userId } = req.params;
-  const { firstName, lastName, email, password, profilePicture, isActive }: User = req.body;
+  const { firstName, lastName, email, password, profilePicture, isActive, isVerified, hasBank, customerUrl, fundingSource }: User = req.body;
 
   try {
     const user = await getUser({email, password});
+
+    console.log(user);
+    
     if (user) {
       const updatedUser = await updateUser({
         id: userId,
@@ -151,6 +158,10 @@ async function updateUser_patch (req: Request, res:Response, next:NextFunction) 
         lastName,
         profilePicture,
         isActive,
+        isVerified,
+        hasBank,
+        customerUrl,
+        fundingSource
       });
 
       res.send({
@@ -159,6 +170,7 @@ async function updateUser_patch (req: Request, res:Response, next:NextFunction) 
       });
     }
   } catch (e) {
+    console.log(e);
     next(e);
   }
 }
