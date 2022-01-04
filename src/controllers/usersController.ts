@@ -126,6 +126,7 @@ async function loginUser_post(req:Request, res:Response, next:NextFunction) {
   
         res.send({
           message: 'Log in successful!',
+          user,
           token,
           userId: user.id,
           success: true
@@ -150,7 +151,7 @@ async function updateUser_patch (req: Request, res:Response, next:NextFunction) 
     const user = await getUser({email, password});
 
     console.log(user);
-    
+
     if (user) {
       const updatedUser = await updateUser({
         id: userId,

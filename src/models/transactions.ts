@@ -11,15 +11,18 @@ export interface Transaction {
   recipientEmail: string;
   date: Date;
   notes: string;
+  initiateBankUrl: string;
+  recipientBankUrl: string;
+  details: string;
 }
 
-async function createTransaction({initiateId, initiateName, initiateEmail, amount, recipientId, recipientName, recipientEmail, date, notes}: Transaction):Promise<any> {
+async function createTransaction({initiateId, initiateName, initiateEmail, amount, recipientId, recipientName, recipientEmail, date, notes, details}: Transaction):Promise<any> {
   try {
     const { rows: [transaction] } = await client.query(`
-      INSERT INTO transactions("initiateId", "initiateName", "initiateEmail", amount, "recipientId", "recipientName", "recipientEmail", date, notes)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      INSERT INTO transactions("initiateId", "initiateName", "initiateEmail", amount, "recipientId", "recipientName", "recipientEmail", date, notes, details)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING *;
-      `, [initiateId, initiateName, initiateEmail, amount, recipientId, recipientName, recipientEmail, date, notes]
+      `, [initiateId, initiateName, initiateEmail, amount, recipientId, recipientName, recipientEmail, date, notes, details]
     );
 
     return transaction;

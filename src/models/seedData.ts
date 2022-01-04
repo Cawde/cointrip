@@ -45,7 +45,8 @@ async function createTables():Promise<void> {
         "recipientName" VARCHAR(255) NOT NULL,
         "recipientEmail" VARCHAR(255) NOT NULL,
         date DATE NOT NULL,
-        notes TEXT
+        notes TEXT,
+        details VARCHAR(255)
       );
     `);
 
@@ -135,7 +136,8 @@ async function createInitialTransactions(): Promise<void> {
         recipientName: "Tony",
         recipientEmail: "ironman@cointrip.com",
         date: "2016-01-14",
-        notes: "Thank you for the suit Mr. Stark"
+        notes: "Thank you for the suit Mr. Stark",
+        details: null
       },
       {
         initiateId: 1,
@@ -146,7 +148,8 @@ async function createInitialTransactions(): Promise<void> {
         recipientName: "Tony",
         recipientEmail: "ironman@cointrip.com",
         date: "2018-05-21",
-        notes: "The new machine works great Tony"
+        notes: "The new machine works great Tony",
+        details: null
       },
       {
         initiateId: 4,
@@ -157,7 +160,8 @@ async function createInitialTransactions(): Promise<void> {
         recipientName: "Steven",
         recipientEmail: "drstrange@cointrip.com",
         date: "2018-06-30",
-        notes: "I appreciate you showing me magic"
+        notes: "I appreciate you showing me magic",
+        details: null
       },
       {
         initiateId: 2,
@@ -168,7 +172,8 @@ async function createInitialTransactions(): Promise<void> {
         recipientName: "Steven",
         recipientEmail: "drstrange@cointrip.com",
         date: "2018-05-22",
-        notes: "I don't need the money Mr. Wizard"
+        notes: "I don't need the money Mr. Wizard",
+        details: null
       },
       {
         initiateId: 3,
@@ -179,7 +184,8 @@ async function createInitialTransactions(): Promise<void> {
         recipientName: "Steven",
         recipientEmail: "drstrange@cointrip.com",
         date: "2021-12-20",
-        notes: "My split for the pizza, sir!"
+        notes: "My split for the pizza, sir!",
+        details: null
       },
       {
         initiateId: 3,
@@ -190,7 +196,8 @@ async function createInitialTransactions(): Promise<void> {
         recipientName: "Steven",
         recipientEmail: "drstrange@cointrip.com",
         date: "2020-12-25",
-        notes: "Sorry about the spell! T.T"
+        notes: "Sorry about the spell! T.T",
+        details: null
       },
       {
         initiateId: 1,
@@ -201,7 +208,8 @@ async function createInitialTransactions(): Promise<void> {
         recipientName: "Peter",
         recipientEmail: "spiderman@cointrip.com",
         date: "2020-12-25",
-        notes: "Kid... just stop"
+        notes: "Kid... just stop",
+        details: null
       },  
     ];
 
