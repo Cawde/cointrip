@@ -43,6 +43,7 @@ An example of a post request to the register endpoint will be:
 An example of the response:
 
 ![register_response](https://user-images.githubusercontent.com/62577188/148176376-9c7bcd74-c838-4d03-8d62-2e9da741eea1.png)
+
 *Note* Although a token is generated, it will not be used at this time. This repo is still a work in progress and I intend to use HTTPOnly Cookies for superior security at a later time.
 
 
