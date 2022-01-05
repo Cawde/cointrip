@@ -29,7 +29,6 @@ function registerUser_post(req, res, next) {
         const { firstName, lastName, email, password } = req.body;
         try {
             const _user = yield getUserByEmail(email);
-            console.log(_user);
             if (_user) {
                 next({
                     name: "UserExistsError",

@@ -33,7 +33,6 @@ async function userDashboard_get(req: Request, res:Response, next:NextFunction) 
     delete user.password;
     const userTransactions:[] = await getAllTransactions();
 
-    console.log(userTransactions);
     res.send({
       user,
       userTransactions
@@ -48,7 +47,6 @@ async function registerUser_post(req:Request, res:Response, next:NextFunction) {
   const {firstName, lastName, email, password }: User = req.body;
   try {
     const _user = await getUserByEmail(email);
-    console.log(_user);
     if (_user) {
       next({
         name: 'UserExistsError',

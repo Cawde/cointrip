@@ -46,6 +46,7 @@ async function createTransaction_post (req:Request, res:Response, next:NextFunct
     };
 
     const transfer = await dwolla.post("transfers", requestBody).then((response: any) => response.headers.get("location"));
+
     const transaction = await createTransaction({initiateId, initiateName, initiateEmail, amount, recipientId, recipientEmail, recipientName, date, notes, details: transfer});
 
     res.send({
@@ -54,6 +55,7 @@ async function createTransaction_post (req:Request, res:Response, next:NextFunct
       transferUrl: transfer
     })
   } catch (e) {
+    console.log(e)
     next(e);
   }
 }
