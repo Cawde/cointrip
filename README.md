@@ -22,7 +22,7 @@ Once you are ready to run the server simply do the command "npm run start:dev" i
 
 # Architecture Pattern:
 This repo uses the Model View Controller(MVC) design pattern as it's guide. Upon navigate to the src folder, you will notice controllers, models, routes, and utils folders. 
-![MVC files example]("https://imgur.com/Z8ofv4P")
+![mvc_source](https://user-images.githubusercontent.com/62577188/148176373-da9e1b28-cf3b-4384-b291-970248f5a27b.png)
 
 In the models folder, all data for either the users or transactions are handled via database queries. In the controllers folder, all logic that for the routes themselves are handled in the matching controller. For example, all the logic for the routes for transactions are in the transactionsController. In the routers folder, the routers are created for either users or transactions and the http methods (GET, POST, PATCH, DELETE) are attached to each of those routers to then be exported and attached to the app router. The app router is what the server will be running in the index.ts file.
 
@@ -32,39 +32,28 @@ Here I will provide examples if what some of the routes will expect as inputs an
 - Register route:
 If a user request to register to Cointrip, the body of the api fetch call must be supplied with their first name, last name, email, and password.
 Here is an example of the user object that will be posted to the backend.
-{
-  firstName, // required
-  lastName, // required
-  email, // required
-  password, // required
-  profilePicture, // will be set to 'https://imgur.com/uW4gXnS' by default
-  isActive: true, // set to true always upon account creation
-  isVerified: false,// The last 4 fields will be changed as the user continues through the register process
-  hasBank: false, // 
-  customerUrl: null, //
-  fundingSource: null //
-}
+![user_object](https://user-images.githubusercontent.com/62577188/148176377-05e3506d-911b-4655-abd1-5bd8c27452bc.png)
 
 An example of a post request to register will be:
-![register post body]("https://imgur.com/xGKJ9Tg")
+![register_post](https://user-images.githubusercontent.com/62577188/148176374-7b6a75ca-d698-4ff7-a43b-c8ec78049885.png)
 
 An example of the response:
-![register response]("https://imgur.com/pEmL6rD")
+![register_response](https://user-images.githubusercontent.com/62577188/148176376-9c7bcd74-c838-4d03-8d62-2e9da741eea1.png)
 *Note* Although token is generated, it will not be used at this time. This repo is still a work in process and I inted to use HTTPOnly Cookies for superior security.
 
 
 - Login Route and examples of error handling:
 An exmaple of login response when using correct credentials: 
 The login route requires a username and password
-![successful login example]("https://imgur.com/nPdhaLc")
+![login_success](https://user-images.githubusercontent.com/62577188/148176371-c33d5712-336a-469a-a9bf-9c00741a1c06.png)
 
 An example of login when missing a credential:
-![missing credentials error]("https://imgur.com/JAhNfR9")
+![login_missing](https://user-images.githubusercontent.com/62577188/148176370-da951b52-de62-48a2-99e1-42ffd76fae05.png)
 
 An exmaple of incorrect credentials:
-![credentials error example]("https://imgur.com/exGReGr")
+![login_credential_error](https://user-images.githubusercontent.com/62577188/148176369-db92386a-8954-4c2a-8d6f-a644f835c1d8.png)
 
 - GET request example:
 Here is an example of a user requesting transactions, which will be filtered and displayed on the user's dashboard upon log in.
-![get request example]("https://imgur.com/4s2bzpA")
+![get_request_example](https://user-images.githubusercontent.com/62577188/148176367-21fa8c9e-1e20-43ae-ab91-3fbf784f1d83.png)
 
